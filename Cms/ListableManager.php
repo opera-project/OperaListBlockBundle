@@ -18,13 +18,13 @@ class ListableManager
 
     public function getListableEntities(): array
     {
-        $ListableEntityNameArray = [];
+        $listableEntityNameArray = [];
 
         foreach ($this->listables as $listableEntity) {
-            $ListableEntityNameArray[] = $listableEntity->getClassName();
+            $listableEntityNameArray[] = $listableEntity->getClassName();
         }
 
-        return $ListableEntityNameArray;
+        return $listableEntityNameArray;
     }
 
     public function getListableEntitiesTemplates(): array
