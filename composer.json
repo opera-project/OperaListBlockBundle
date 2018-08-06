@@ -11,5 +11,13 @@
             "name": "Nsy",
             "email": "noelie@donkeycode.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "Opera\\ListBlockBundle\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    }
 }
