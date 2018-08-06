@@ -1,0 +1,15 @@
+{
+    "name": "opera-project/list-block-bundle",
+    "description": "Make opera able to manage list blocks",
+    "type": "symfony-bundle",
+    "require": {
+        "opera-project/core-bundle": "^0.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nsy",
+            "email": "noelie@donkeycode.com"
+        }
+    ]
+}
