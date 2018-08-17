@@ -10,6 +10,8 @@ use Opera\ListBlockBundle\Cms\ListableManager;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Opera\TaxonomyBundle\Entity\Tag;
+use Opera\CoreBundle\Form\Type\OperaAdminAutocompleteType;
 
 class ContentList extends BaseBlock implements BlockTypeInterface
 {
@@ -68,6 +70,11 @@ class ContentList extends BaseBlock implements BlockTypeInterface
             ),
         ]);
 
+        $builder->add('tags', OperaAdminAutocompleteType::class, [
+            'class' => Tag::class,
+            'multiple' => true,
+        ]);
+        
         $builder->add('limit', NumberType::class);
     }
 
@@ -79,12 +86,17 @@ class ContentList extends BaseBlock implements BlockTypeInterface
                     ->values($this->listableManager->getListableEntities())
                     ->defaultValue($this->listableManager->getListableEntities()[0])
                 ->end()
-                ->integerNode('limit')
+                ->arrayNode('tags')
+                    ->treatNullLike(array())
+                    ->prototype('scalar')->end()
+                ->end()
+                ->floatNode('limit')
                     ->min(1)
                     ->defaultValue(5)
                 ->end()
                 ->scalarNode('template')->end()
                 ->scalarNode('order')->end()
             ->end();
+            ;
     }
 }

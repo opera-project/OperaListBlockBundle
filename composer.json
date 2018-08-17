@@ -3,7 +3,8 @@
     "description": "Make opera able to manage list blocks",
     "type": "symfony-bundle",
     "require": {
-        "opera-project/core-bundle": "^0.1"
+        "opera-project/core-bundle": "^0.1",
+        "opera-project/taxonomy-bundle": "^0.1"
     },
     "license": "MIT",
     "authors": [
