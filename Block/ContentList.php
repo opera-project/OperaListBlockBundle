@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Opera\ListBlockBundle\Cms\ListableManager;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 
 class ContentList extends BaseBlock implements BlockTypeInterface
 {
@@ -68,5 +69,24 @@ class ContentList extends BaseBlock implements BlockTypeInterface
         ]);
 
         $builder->add('limit', NumberType::class);
+    }
+
+    public function configure(NodeDefinition $rootNode)
+    {
+        $rootNode
+            ->children()
+                // ->enumNode('what')
+                //     ->values($this->listableManager->getListableEntities())
+                //     ->defaultValue($this->listableManager->getListableEntities()[0])
+                // ->end()
+                // ->integerNode('limit')
+                //     ->min(1)
+                //     ->defaultValue(5)
+                // ->end()
+                ->scalarNode('what')->end()
+                ->scalarNode('limit')->end()
+                ->scalarNode('template')->end()
+                ->scalarNode('order')->end()
+            ->end();
     }
 }
