@@ -73,6 +73,7 @@ class ContentList extends BaseBlock implements BlockTypeInterface
         $builder->add('tags', OperaAdminAutocompleteType::class, [
             'class' => Tag::class,
             'multiple' => true,
+            'required' => false,
         ]);
         
         $builder->add('limit', NumberType::class);
