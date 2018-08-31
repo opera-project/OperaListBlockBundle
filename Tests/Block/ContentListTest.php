@@ -6,6 +6,7 @@ use Opera\CoreBundle\Tests\TestCase;
 use Opera\ListBlockBundle\Block\ContentList;
 use Opera\ListBlockBundle\Cms\ListableManager;
 use Opera\CoreBundle\Entity\Block;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ContentListTest extends TestCase
 {
@@ -15,7 +16,7 @@ class ContentListTest extends TestCase
     {
         $this->listableManagerMock = $this->createMock(ListableManager::class);
 
-        $contentListBlock = new ContentList($this->listableManagerMock);
+        $contentListBlock = new ContentList($this->listableManagerMock, $this->createMock(RequestStack::class));
 
         $this->assertEquals('content_list', $contentListBlock->getType());
     }

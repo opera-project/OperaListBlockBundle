@@ -3,6 +3,7 @@
 namespace Opera\ListBlockBundle\BlockType;
 
 use Opera\CoreBundle\Entity\Block;
+use Doctrine\ORM\QueryBuilder;
 
 interface BlockListableInterface
 {   
@@ -16,5 +17,5 @@ interface BlockListableInterface
      */
     public function listableConfiguration() : array;
 
-    public function filterForListableBlock(Block $block) : array;
+    public function filterForListableBlock(Block $block) : QueryBuilder;
 }

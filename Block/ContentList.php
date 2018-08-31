@@ -12,14 +12,17 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Opera\TaxonomyBundle\Entity\Tag;
 use Opera\CoreBundle\Form\Type\OperaAdminAutocompleteType;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ContentList extends BaseBlock implements BlockTypeInterface
 {
     private $listableManager;
+    private $requestStack;
 
-    public function __construct(ListableManager $listableManager)
+    public function __construct(ListableManager $listableManager, RequestStack $requestStack)
     {
         $this->listableManager = $listableManager;
+        $this->requestStack = $requestStack;
     }
 
     public function getTemplate(Block $block) : string
@@ -41,9 +44,16 @@ class ContentList extends BaseBlock implements BlockTypeInterface
     public function getVariables(Block $block) : array
     {
         $config = $block->getConfiguration();
+        $pageParameterName = $config['page_parameter_name'] ?? 'page_'.$block->getId();
        
+        $pagerfanta = $this->listableManager->getContents(
+            $block, 
+            $this->requestStack->getCurrentRequest()->get($pageParameterName, 1)
+        );
+
         return [
-            'contents' => $this->listableManager->getContents($block),
+            'page_parameter_name' => $pageParameterName,
+            'contents' => $pagerfanta,
         ];
     }
 
@@ -77,6 +87,8 @@ class ContentList extends BaseBlock implements BlockTypeInterface
         ]);
         
         $builder->add('limit', NumberType::class);
+
+        $builder->add('page_parameter_name');
     }
 
     public function configure(NodeDefinition $rootNode)
@@ -97,6 +109,7 @@ class ContentList extends BaseBlock implements BlockTypeInterface
                 ->end()
                 ->scalarNode('template')->end()
                 ->scalarNode('order')->end()
+                ->scalarNode('page_parameter_name')->end()
             ->end();
             ;
     }

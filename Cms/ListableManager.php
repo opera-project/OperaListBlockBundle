@@ -5,6 +5,8 @@ namespace Opera\ListBlockBundle\Cms;
 use Opera\ListBlockBundle\BlockType\BlockListableInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Opera\CoreBundle\Entity\Block;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 
 class ListableManager
 {
@@ -54,12 +56,19 @@ class ListableManager
         $this->listables[] = $listableEntityRepository;
     }
 
-    public function getContents(Block $block): array
+    public function getContents(Block $block, ?int $page = 1): Pagerfanta
     {
         $config = $block->getConfiguration();
         $repository = $this->entityManager->getRepository($config['what']);
 
-        return $repository->filterForListableBlock($block);
+        $queryBuilder = $repository->filterForListableBlock($block);
+
+        $adapter = new DoctrineORMAdapter($queryBuilder);
+        $pagerfanta = new Pagerfanta($adapter);
+        $pagerfanta->setMaxPerPage(isset($config['limit']) ? $config['limit'] : 10);
+        $pagerfanta->setCurrentPage($page);
+
+        return $pagerfanta;
     }
 
 }
