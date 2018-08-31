@@ -41,7 +41,7 @@ class ContentList extends BaseBlock implements BlockTypeInterface
         return 'content_list';
     }
 
-    public function getVariables(Block $block) : array
+    public function execute(Block $block) : array
     {
         $config = $block->getConfiguration();
         $pageParameterName = $config['page_parameter_name'] ?? 'page_'.$block->getId();
