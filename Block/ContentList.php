@@ -13,8 +13,10 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Opera\TaxonomyBundle\Entity\Tag;
 use Opera\CoreBundle\Form\Type\OperaAdminAutocompleteType;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Opera\CoreBundle\BlockType\CacheableBlockInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ContentList extends BaseBlock implements BlockTypeInterface
+class ContentList extends BaseBlock implements BlockTypeInterface, CacheableBlockInterface
 {
     private $listableManager;
     private $requestStack;
@@ -112,5 +114,14 @@ class ContentList extends BaseBlock implements BlockTypeInterface
                 ->scalarNode('page_parameter_name')->end()
             ->end();
             ;
+    }
+
+    public function getCacheConfig(OptionsResolver $resolver, Block $block)
+    {
+        $resolver->setDefaults([
+            // Set your configs for cache
+            // 'vary' => 'cookie',
+            // 'expires_after' => \DateInterval::createFromDateString('1 hour'),
+        ]);
     }
 }
