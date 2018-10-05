@@ -120,7 +120,7 @@ class ContentList extends BaseBlock implements BlockTypeInterface, CacheableBloc
     {
         $resolver->setDefaults([
             // Set your configs for cache
-            // 'vary' => 'cookie',
+            'vary' => 'cookie',
             // 'expires_after' => \DateInterval::createFromDateString('1 hour'),
         ]);
     }
