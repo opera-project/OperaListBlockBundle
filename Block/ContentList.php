@@ -15,6 +15,8 @@ use Opera\CoreBundle\Form\Type\OperaAdminAutocompleteType;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Opera\CoreBundle\BlockType\CacheableBlockInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Pagerfanta\Exception\OutOfRangeCurrentPageException;
+use Symfony\Component\HttpFoundation\Response;
 
 class ContentList extends BaseBlock implements BlockTypeInterface, CacheableBlockInterface
 {
@@ -43,15 +45,19 @@ class ContentList extends BaseBlock implements BlockTypeInterface, CacheableBloc
         return 'content_list';
     }
 
-    public function execute(Block $block) : array
+    public function execute(Block $block)
     {
         $config = $block->getConfiguration();
         $pageParameterName = $config['page_parameter_name'] ?? 'page_'.$block->getId();
        
-        $pagerfanta = $this->listableManager->getContents(
-            $block, 
-            $this->requestStack->getCurrentRequest()->get($pageParameterName, 1)
-        );
+        try {
+            $pagerfanta = $this->listableManager->getContents(
+                $block, 
+                $this->requestStack->getCurrentRequest()->get($pageParameterName, 1)
+            );
+        } catch (OutOfRangeCurrentPageException $e) {
+            return new Response('', Response::HTTP_NOT_FOUND);
+        }
 
         return [
             'page_parameter_name' => $pageParameterName,
