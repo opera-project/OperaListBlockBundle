@@ -49,7 +49,7 @@ class ContentList extends BaseBlock implements BlockTypeInterface, CacheableBloc
     {
         $config = $block->getConfiguration();
         $pageParameterName = $config['page_parameter_name'] ?? 'page_'.$block->getId();
-       
+
         try {
             $pagerfanta = $this->listableManager->getContents(
                 $block, 
@@ -93,7 +93,8 @@ class ContentList extends BaseBlock implements BlockTypeInterface, CacheableBloc
             'multiple' => true,
             'required' => false,
         ]);
-        
+
+        $builder->add('filters', TextareaType::class);
         $builder->add('limit', NumberType::class);
 
         $builder->add('page_parameter_name');
@@ -111,6 +112,7 @@ class ContentList extends BaseBlock implements BlockTypeInterface, CacheableBloc
                     ->treatNullLike(array())
                     ->prototype('scalar')->end()
                 ->end()
+                ->scalarNode('filters')->defaultValue('')->end()
                 ->floatNode('limit')
                     ->min(1)
                     ->defaultValue(5)
