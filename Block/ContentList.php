@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Opera\ListBlockBundle\Cms\ListableManager;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Opera\TaxonomyBundle\Entity\Tag;
 use Opera\CoreBundle\Form\Type\OperaAdminAutocompleteType;
