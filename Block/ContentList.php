@@ -30,7 +30,7 @@ class ContentList extends BaseBlock implements BlockTypeInterface, CacheableBloc
         $this->requestStack = $requestStack;
     }
 
-    public function getTemplate(Block $block) : string
+    public function getTemplate(Block $block): string
     {
         $config = $block->getConfiguration();
 
@@ -40,8 +40,8 @@ class ContentList extends BaseBlock implements BlockTypeInterface, CacheableBloc
 
         return sprintf('blocks/%s.html.twig', $this->getType());
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return 'content_list';
     }
@@ -49,11 +49,11 @@ class ContentList extends BaseBlock implements BlockTypeInterface, CacheableBloc
     public function execute(Block $block)
     {
         $config = $block->getConfiguration();
-        $pageParameterName = $config['page_parameter_name'] ?? 'page_'.$block->getId();
+        $pageParameterName = $config['page_parameter_name'] ?? 'page_' . $block->getId();
 
         try {
             $pagerfanta = $this->listableManager->getContents(
-                $block, 
+                $block,
                 $this->requestStack->getCurrentRequest()->get($pageParameterName, 1)
             );
         } catch (OutOfRangeCurrentPageException $e) {
@@ -74,7 +74,7 @@ class ContentList extends BaseBlock implements BlockTypeInterface, CacheableBloc
                 $this->listableManager->getListableEntities()
             ),
         ]);
-        
+
         $builder->add('template', ChoiceType::class, [
             'choices' => array_combine(
                 $this->listableManager->getListableEntitiesTemplates(),
@@ -95,10 +95,15 @@ class ContentList extends BaseBlock implements BlockTypeInterface, CacheableBloc
             'required' => false,
         ]);
 
-        $builder->add('filters', TextareaType::class);
+        $builder->add('filters', TextareaType::class, [
+            'required' => false,
+        ]);
+
         $builder->add('limit', NumberType::class);
 
-        $builder->add('page_parameter_name');
+        $builder->add('page_parameter_name', [
+            'required' => false,
+        ]);
     }
 
     public function configure(NodeDefinition $rootNode)
