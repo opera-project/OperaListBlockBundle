@@ -110,23 +110,24 @@ class ContentList extends BaseBlock implements BlockTypeInterface, CacheableBloc
     {
         $rootNode
             ->children()
-            ->enumNode('what')
-            ->values($this->listableManager->getListableEntities())
-            ->defaultValue($this->listableManager->getListableEntities()[0])
-            ->end()
-            ->arrayNode('tags')
-            ->treatNullLike(array())
-            ->prototype('scalar')->end()
-            ->end()
-            ->scalarNode('filters')->defaultValue('')->end()
-            ->floatNode('limit')
-            ->min(1)
-            ->defaultValue(5)
-            ->end()
-            ->scalarNode('template')->end()
-            ->scalarNode('order')->end()
-            ->scalarNode('page_parameter_name')->end()
-            ->end();;
+                ->enumNode('what')
+                    ->values($this->listableManager->getListableEntities())
+                    ->defaultValue($this->listableManager->getListableEntities()[0])
+                ->end()
+                ->arrayNode('tags')
+                    ->treatNullLike(array())
+                    ->prototype('scalar')->end()
+                ->end()
+                ->scalarNode('filters')->defaultValue('')->end()
+                ->floatNode('limit')
+                    ->min(1)
+                    ->defaultValue(5)
+                ->end()
+                ->scalarNode('template')->end()
+                ->scalarNode('order')->end()
+                ->scalarNode('page_parameter_name')->end()
+            ->end();
+            ;
     }
 
     public function getCacheConfig(OptionsResolver $resolver, Block $block)
